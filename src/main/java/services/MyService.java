@@ -3,12 +3,18 @@ package services;
 import external.services.BQClient;
 
 public class MyService {
-    BQClient bqClient = new BQClient();
+    BQClient bqClient;
+
+    public MyService(BQClient bqClient) {
+        this.bqClient = bqClient;
+    }
 
     public void sendMessage(String message) {
-        if(message == null) {
+        String formattedMessage = bqClient.getFormattedMessage(message);
+        if(formattedMessage == null) {
             throw new IllegalArgumentException("message cannot be null");
         }
-        bqClient.putObject(message);
+        System.out.println("Calling to putObject with formatted message: " +  formattedMessage);
+        bqClient.putObject(formattedMessage);
     }
 }
