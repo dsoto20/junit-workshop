@@ -6,9 +6,11 @@ public class MyService {
     BQClient bqClient = new BQClient();
 
     public void sendMessage(String message) {
-        if(message == null) {
+        String formattedMessage = bqClient.getFormattedMessage(message);
+        if(formattedMessage == null) {
             throw new IllegalArgumentException("message cannot be null");
         }
-        bqClient.putObject(message);
+        System.out.println("Calling to putObject with formatted message: " +  formattedMessage);
+        bqClient.putObject(formattedMessage);
     }
 }
